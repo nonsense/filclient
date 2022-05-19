@@ -10,6 +10,7 @@ import (
 	"sync"
 	"time"
 
+	"github.com/davecgh/go-spew/spew"
 	boostcar "github.com/filecoin-project/boost/car"
 	smtypes "github.com/filecoin-project/boost/storagemarket/types"
 	"github.com/filecoin-project/boost/storagemarket/types/dealcheckpoints"
@@ -367,6 +368,14 @@ func (fc *FilClient) minerAddrInfo(ctx context.Context, maddr address.Address) (
 		}
 		maddrs = append(maddrs, ma)
 	}
+
+	spew.Dump(maddrs)
+
+	muaddr, err := multiaddr.NewMultiaddr("/ip4/127.0.0.1/tcp/24001")
+	if err != nil {
+		panic(err)
+	}
+	maddrs = []multiaddr.Multiaddr{muaddr}
 
 	// FIXME - lotus-client-proper falls back on the DHT when it has a peerid but no multiaddr
 	// filc should do the same
